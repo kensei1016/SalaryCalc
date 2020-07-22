@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>従業員編集</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <h1 th:text="${title}">編集ページ</h1>
+
+  <form method="post" action="/edit" th:object="${formModel}">
+    <input type="hidden" name="idemployee" th:value="*{idemployee}" />
+    <label for="name">名前</label>
+    <input type="text" name="name" th:value="*{name}" />
+
+    <input type="submit" />
+  </form>
+</body>
+</html>

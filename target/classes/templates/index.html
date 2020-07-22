@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>従業員一覧</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+  <h1 th:text="#{content.title}"></h1>
+
+  <form method="post" action="/" th:object="${formModel}">
+    <label for="name">名前</label><br>
+    <input type="text" name="name" th:value="*{name}" /><br>
+
+    <label for="text1">名前（カナ）</label><br>
+    <input type="text" name="text1" th:value="*{text1}" /><br>
+
+    <label for="text2">メール</label><br>
+    <input type="text" name="text2" th:value="*{text2}" /><br>
+
+    <label for="text3">電話番号</label><br>
+    <input type="text" name="text3" th:value="*{text3}" /><br>
+
+    <input type="submit" name="追加" />
+  </form>
+
+
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>名前</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <tr th:each="emp : ${emplist}" th:object="${emp}">
+      <td th:text="*{idemployee}"></td>
+      <td th:text="*{name}"></td>
+      <td><a th:href="@{'/employee/' + *{idemployee}}">詳細</a></td>
+      <td><a th:href="@{'/delete/' + *{idemployee}}">削除</a></td>
+    </tr>
+  </table>
+</body>
+</html>
