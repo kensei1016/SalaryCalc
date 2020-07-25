@@ -1,13 +1,13 @@
 package com.example.demo;
 
-import java.util.Optional;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,67 +19,113 @@ public class MainController {
   @Autowired // This means to get the bean called userRepository
   MstEmployeeRepository employeeRepository;
 
+  @Autowired
+  private MstEmployeeService service;
+
   private JdbcTemplate jdbcTemplate;
+
+//  /* GET */
+//  @RequestMapping(value = "/", method = RequestMethod.GET)
+//  public ModelAndView index(@ModelAttribute("formModel") MstEmployee employee, ModelAndView mav) {
+//    mav.setViewName("index");
+//    mav.addObject("msg", "this is sample content.");
+//    Iterable<MstEmployee> list = employeeRepository.findAll();
+//    mav.addObject("emplist", list);
+//
+//    return mav;
+//  }
+
 
   /* GET */
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public ModelAndView index(@ModelAttribute("formModel") MstEmployee employee, ModelAndView mav) {
     mav.setViewName("index");
     mav.addObject("msg", "this is sample content.");
-    Iterable<MstEmployee> list = employeeRepository.findAll();
+    List<MstEmployee> list = service.getAll();
     mav.addObject("emplist", list);
 
     return mav;
   }
 
-  /* POST */
-  @RequestMapping(value = "/", method = RequestMethod.POST)
-  @Transactional(readOnly = false)
-  public ModelAndView form(@ModelAttribute("formModel") MstEmployee employee, ModelAndView mav) {
-    employeeRepository.saveAndFlush(employee);
+  /* GET(FIND) */
+  @RequestMapping(value = "/find", method = RequestMethod.GET)
+  public ModelAndView find(ModelAndView mav) {
+	  mav.setViewName("find");
+	  mav.addObject("title", "Find Page");
+	  mav.addObject("msg", "MyDataのサンプルです。");
+	  mav.addObject("value", "");
+	  List<MstEmployee> list = service.getAll();
+	  mav.addObject("datalist", list);
 
-    return new ModelAndView("redirect:/");
+	  return mav;
   }
 
-  /* SHOW */
-  @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
-  public ModelAndView show(@ModelAttribute MstEmployee employee, @PathVariable int id, ModelAndView mav) {
-    mav.setViewName("show");
-    mav.addObject("title", "show mydata");
-    Optional<MstEmployee> data = employeeRepository.findById(id);
-    mav.addObject("formModel", data.get());
+  /* POST(FIND) */
+  @RequestMapping(value = "/find", method = RequestMethod.POST)
+  public ModelAndView search(HttpServletRequest request, ModelAndView mav) {
+	  mav.setViewName("find");
+	  String param = request.getParameter("fstr");
+	  if(param == "") {
+		  mav = new ModelAndView("redirect:/find");
+	  } else {
+		  mav.addObject("title", "Find result");
+		  mav.addObject("msg", "「" + param + "「の検索結果");
+		  mav.addObject("value", param);
+		  List<MstEmployee> list = service.find(param);
+		  mav.addObject("datalist", list);
+	  }
 
-    return mav;
+	  return mav;
   }
 
-  /* EDIT */
-  @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-  public ModelAndView edit(@ModelAttribute MstEmployee employee, @PathVariable int id, ModelAndView mav) {
-    mav.setViewName("edit");
-    mav.addObject("title", "edit mydata");
-    Optional<MstEmployee> data = employeeRepository.findById(id);
-    mav.addObject("formModel", data.get());
-
-    return mav;
-  }
-
-  /* UPDATE */
-  @RequestMapping(value = "/edit", method = RequestMethod.POST)
-  @Transactional(readOnly=false)
-  public ModelAndView update(@ModelAttribute MstEmployee employee, ModelAndView mav) {
-    employeeRepository.saveAndFlush(employee);
-
-    return new ModelAndView("redirect:/");
-  }
-
-  /* DELETE */
-  @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-  @Transactional(readOnly=false)
-  public ModelAndView remove(@PathVariable int id, ModelAndView mav) {
-    employeeRepository.deleteById(id);
-
-    return new ModelAndView("redirect:/");
-  }
+//  /* POST */
+//  @RequestMapping(value = "/", method = RequestMethod.POST)
+//  @Transactional(readOnly = false)
+//  public ModelAndView form(@ModelAttribute("formModel") MstEmployee employee, ModelAndView mav) {
+//    employeeRepository.saveAndFlush(employee);
+//
+//    return new ModelAndView("redirect:/");
+//  }
+//
+//  /* SHOW */
+//  @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
+//  public ModelAndView show(@ModelAttribute MstEmployee employee, @PathVariable int id, ModelAndView mav) {
+//    mav.setViewName("show");
+//    mav.addObject("title", "show mydata");
+//    Optional<MstEmployee> data = employeeRepository.findById(id);
+//    mav.addObject("formModel", data.get());
+//
+//    return mav;
+//  }
+//
+//  /* EDIT */
+//  @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+//  public ModelAndView edit(@ModelAttribute MstEmployee employee, @PathVariable int id, ModelAndView mav) {
+//    mav.setViewName("edit");
+//    mav.addObject("title", "edit mydata");
+//    Optional<MstEmployee> data = employeeRepository.findById(id);
+//    mav.addObject("formModel", data.get());
+//
+//    return mav;
+//  }
+//
+//  /* UPDATE */
+//  @RequestMapping(value = "/edit", method = RequestMethod.POST)
+//  @Transactional(readOnly=false)
+//  public ModelAndView update(@ModelAttribute MstEmployee employee, ModelAndView mav) {
+//    employeeRepository.saveAndFlush(employee);
+//
+//    return new ModelAndView("redirect:/");
+//  }
+//
+//  /* DELETE */
+//  @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+//  @Transactional(readOnly=false)
+//  public ModelAndView remove(@PathVariable int id, ModelAndView mav) {
+//    employeeRepository.deleteById(id);
+//
+//    return new ModelAndView("redirect:/");
+//  }
 
   //  @GetMapping("/")
   //  public String index(Model model, @ModelAttribute("formModel") Employee mydata) {

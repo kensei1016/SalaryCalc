@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MyDataService {
+public class MstEmployeeService {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -19,12 +19,12 @@ public class MyDataService {
 	@SuppressWarnings("unchecked")
 	public List<MstEmployee> getAll() {
 		return (List<MstEmployee>) entityManager
-				.createNamedQuery("from MyData").getResultList();
+				.createQuery("from MstEmployee").getResultList();
 	}
 
 	public MstEmployee get(int num) {
 		return (MstEmployee)entityManager
-				.createNamedQuery("from MyData where id = " + num)
+				.createNamedQuery("from MstEmployee where id = " + num)
 				.getSingleResult();
 	}
 
