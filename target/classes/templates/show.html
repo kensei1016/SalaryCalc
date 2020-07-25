@@ -12,16 +12,10 @@
     <tr>
       <th>ID</th>
       <th>名前</th>
-      <th>名前（カナ）</th>
-      <th>メール</th>
-      <th>電話番号</th>
     </tr>
     <tr th:object="${formModel}">
-      <td th:text="*{idemployee}"></td>
+      <td th:text="*{emp_id}"></td>
       <td th:text="*{name}"></td>
-      <td th:text="*{text1}"></td>
-      <td th:text="*{text2}"></td>
-      <td th:text="*{text3}"></td>
     </tr>
   </table>
 </body>

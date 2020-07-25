@@ -17,16 +17,16 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController {
 
   @Autowired // This means to get the bean called userRepository
-  EmployeeRepository employeeRepository;
+  MstEmployeeRepository employeeRepository;
 
   private JdbcTemplate jdbcTemplate;
 
   /* GET */
   @RequestMapping(value = "/", method = RequestMethod.GET)
-  public ModelAndView index(@ModelAttribute("formModel") Employee employee, ModelAndView mav) {
+  public ModelAndView index(@ModelAttribute("formModel") MstEmployee employee, ModelAndView mav) {
     mav.setViewName("index");
     mav.addObject("msg", "this is sample content.");
-    Iterable<Employee> list = employeeRepository.findAll();
+    Iterable<MstEmployee> list = employeeRepository.findAll();
     mav.addObject("emplist", list);
 
     return mav;
@@ -35,7 +35,7 @@ public class MainController {
   /* POST */
   @RequestMapping(value = "/", method = RequestMethod.POST)
   @Transactional(readOnly = false)
-  public ModelAndView form(@ModelAttribute("formModel") Employee employee, ModelAndView mav) {
+  public ModelAndView form(@ModelAttribute("formModel") MstEmployee employee, ModelAndView mav) {
     employeeRepository.saveAndFlush(employee);
 
     return new ModelAndView("redirect:/");
@@ -43,10 +43,10 @@ public class MainController {
 
   /* SHOW */
   @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
-  public ModelAndView show(@ModelAttribute Employee employee, @PathVariable int id, ModelAndView mav) {
+  public ModelAndView show(@ModelAttribute MstEmployee employee, @PathVariable int id, ModelAndView mav) {
     mav.setViewName("show");
     mav.addObject("title", "show mydata");
-    Optional<Employee> data = employeeRepository.findById(id);
+    Optional<MstEmployee> data = employeeRepository.findById(id);
     mav.addObject("formModel", data.get());
 
     return mav;
@@ -54,10 +54,10 @@ public class MainController {
 
   /* EDIT */
   @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-  public ModelAndView edit(@ModelAttribute Employee employee, @PathVariable int id, ModelAndView mav) {
+  public ModelAndView edit(@ModelAttribute MstEmployee employee, @PathVariable int id, ModelAndView mav) {
     mav.setViewName("edit");
     mav.addObject("title", "edit mydata");
-    Optional<Employee> data = employeeRepository.findById(id);
+    Optional<MstEmployee> data = employeeRepository.findById(id);
     mav.addObject("formModel", data.get());
 
     return mav;
@@ -66,7 +66,7 @@ public class MainController {
   /* UPDATE */
   @RequestMapping(value = "/edit", method = RequestMethod.POST)
   @Transactional(readOnly=false)
-  public ModelAndView update(@ModelAttribute Employee employee, ModelAndView mav) {
+  public ModelAndView update(@ModelAttribute MstEmployee employee, ModelAndView mav) {
     employeeRepository.saveAndFlush(employee);
 
     return new ModelAndView("redirect:/");
