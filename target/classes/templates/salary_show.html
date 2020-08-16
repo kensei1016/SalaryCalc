@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="commons/layout :: meta_header('従業員明細',~{::link},~{::script})"></head>
+<body>
+  <div th:replace="commons/layout :: header"></div>
+
+  <div th:replace="commons/layout :: contents(~{::div.content}, '従業員給与明細')">
+    <div class="content">
+
+      <h3 th:text="|${trnPayslip.mstEmployee.name}さんの給与明細|" class="mt-5 mb-3"></h3>
+
+      <!-- <a th:href -->
+
+      <form name="form" action="/emp_salary" method="post" th:object="${trnPayslip}">
+        <input type="hidden" name="trn_payslip_id" th:value="*{trn_payslip_id}">
+        <input type="hidden" name="year_month" th:value="*{year_month}">
+        <!-- <input type="hidden" name="mstEmployee" th:value="*{mstEmployee.emp_id}"> -->
+        <!-- <input type="hidden" th:field="${trnPayslip.mstEmployee.emp_id}"> -->
+        <input type="hidden" th:field="${trnPayslip.mstEmployee}">
+        <input type="hidden" name="payment3" th:value="*{payment3}">
+        <input type="hidden" name="payment4" th:value="*{payment4}">
+        <input type="hidden" name="payment5" th:value="*{payment5}">
+        <input type="hidden" name="payment6" th:value="*{payment6}">
+        <input type="hidden" name="payment7" th:value="*{payment7}">
+        <input type="hidden" name="payment8" th:value="*{payment8}">
+        <input type="hidden" name="payment9" th:value="*{payment9}">
+        <input type="hidden" name="deduction1" th:value="*{deduction1}">
+        <input type="hidden" name="deduction2" th:value="*{deduction2}">
+        <input type="hidden" name="deduction3" th:value="*{deduction3}">
+        <input type="hidden" name="deduction4" th:value="*{deduction4}">
+        <input type="hidden" name="deduction5" th:value="*{deduction5}">
+        <input type="hidden" name="deduction6" th:value="*{deduction6}">
+        <input type="hidden" name="deduction7" th:value="*{deduction7}">
+        <input type="hidden" name="deduction8" th:value="*{deduction8}">
+        <input type="hidden" name="deduction9" th:value="*{deduction9}">
+
+        <table class="table salary-calc-table">
+          <tbody>
+            <tr>
+              <th rowspan="4">支<br><br>給</th>
+              <th><label>基本給</label></th>
+              <th><label>技術手当</label></th>
+              <th><label>役職手当</label></th>
+              <th><label>みなし残業手当</label></th>
+              <th><label>みなし土日スマホ対応手当</label></th>
+            </tr>
+            <tr>
+              <td><input type="text" size="8" name="payment1" th:value="*{payment1}"></td>
+              <td><input type="text" size="8" name="payment2" th:value="*{payment2}"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+            </tr>
+            <tr>
+              <th><label>時間外手当</label></th>
+              <th><label>深夜手当</label></th>
+              <th><label>通勤手当（非）</label></th>
+              <th><input type="text" size="8" value=""></th>
+              <th><label>総支給額</label></th>
+            </tr>
+            <tr>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+            </tr>
+
+            <tr>
+              <th rowspan="4">控<br><br>除</th>
+              <th><label>健康保険</label></th>
+              <th><label>介護保険</label></th>
+              <th><label>厚生年金</label></th>
+              <th><label>雇用保険</label></th>
+              <th><label>社会保険計</label></th>
+            </tr>
+            <tr>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+            </tr>
+            <tr>
+
+              <th><label>所得税</label></th>
+              <th><label>住民税</label></th>
+              <th><input type="text" size="8" value=""></th>
+              <th><input type="text" size="8" value=""></th>
+              <th><label>控除計</label></th>
+            </tr>
+            <tr>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+              <td><input type="text" size="8" value="0"></td>
+            </tr>
+
+            <tr>
+              <td colspan="3">支給額合計額</td>
+              <td colspan="2">300000</td>
+            </tr>
+            <tr>
+              <td colspan="3">控除合計額</td>
+              <td colspan="2">100000</td>
+            </tr>
+            <tr>
+              <td colspan="3">差引支給額</td>
+              <td colspan="2">200000</td>
+            </tr>
+            <tr>
+              <td colspan="3">銀行振込額</td>
+              <td colspan="2">200000</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <input type="submit" name="calc" class="btn btn-success" value="計算">
+        <input type="submit" name="save" class="btn btn-success" value="保存">
+        <input type="submit" name="pdf_output" class="btn btn-success" value="PDF出力">
+      </form>
+
+    </div>
+  </div>
+
+  <div th:replace="commons/layout :: footer"></div>
+</body>
+</html>

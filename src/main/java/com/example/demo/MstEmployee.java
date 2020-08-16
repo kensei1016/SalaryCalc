@@ -10,12 +10,22 @@ public class MstEmployee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer emp_id;
-
 	private String name;
-
 	private String update_user;
-
 	private String update_date;
+
+
+//	@OneToMany(cascade=CascadeType.ALL)
+//	@OneToMany(mappedBy="mstemployee", cascade=CascadeType.ALL)
+//	private List<TrnPayslip> trnPayslips;
+//
+//	public List<TrnPayslip> getTrnPayslips() {
+//	  return trnPayslips;
+//	}
+//
+//	public void setTrnPayslips(List<TrnPayslip> trnPayslips) {
+//	  this.trnPayslips = trnPayslips;
+//	}
 
 
 	public Integer getEmp_id() {

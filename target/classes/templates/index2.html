@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{commons/layout}">
+<head>
+  <title>給与計算アプリ</title>
+</head>
+<body>
+  <div layout:fragment="header">タイトルは個別に設定します。</div>
+  <div layout:fragment="contents">
+    <p>ここから下が個別のページです</p>
+
+    <div class="container pt-5">
+      <h1 th:text="支給日一覧"></h1>
+
+      <table>
+        <tr>
+          <th>支給月</th>
+        </tr>
+        <tr>
+          <td><a th:href="@{'/emplist'}">202001</a></td>
+        </tr>
+        <tr>
+          <td><a th:href="@{'/'}">202002</a></td>
+        </tr>
+        <tr>
+          <td><a th:href="@{'/'}">202003</a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,16 +1,19 @@
 package com.example.demo;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 
 @Controller // This means that this class is a Controller
 //@RequestMapping(path = "/demo") // This means URL's start with /demo (after Application path)
@@ -20,23 +23,15 @@ public class MainController {
   MstEmployeeRepository employeeRepository;
 
   @Autowired
+  TrnPayslipRepository trnPayslipRepository;
+
+  @Autowired
   private MstEmployeeService service;
 
-  private JdbcTemplate jdbcTemplate;
-
-//  /* GET */
-//  @RequestMapping(value = "/", method = RequestMethod.GET)
-//  public ModelAndView index(@ModelAttribute("formModel") MstEmployee employee, ModelAndView mav) {
-//    mav.setViewName("index");
-//    mav.addObject("msg", "this is sample content.");
-//    Iterable<MstEmployee> list = employeeRepository.findAll();
-//    mav.addObject("emplist", list);
-//
-//    return mav;
-//  }
-
-
-  /* GET */
+  /*
+   * GET(/)
+   * メイン(支給日一覧)画面
+   */
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public ModelAndView index(@ModelAttribute("formModel") MstEmployee employee, ModelAndView mav) {
     mav.setViewName("index");
@@ -45,6 +40,50 @@ public class MainController {
     mav.addObject("emplist", list);
 
     return mav;
+  }
+
+
+  /*
+   * GET(/emplist?date=202001)
+   * 従業員一覧画面
+   */
+  @RequestMapping(value = "/emplist", params = "date", method = RequestMethod.GET)
+  public ModelAndView emplist(@ModelAttribute("formModel") @RequestParam Integer date, ModelAndView mav) {
+    mav.setViewName("emplist");
+    mav.addObject("msg", "this is sample content.");
+    mav.addObject("date", date);
+
+//    List<TrnPayslip> list = trnPayslipRepository.findByYearMonth(date);
+    List<MstEmployee> list = service.getAll();
+    mav.addObject("trnPayslipList", list);
+
+    return mav;
+  }
+
+  /*
+   * GET(/emp_salary?date=202001&emp_id=1)
+   * 従業員給与画面
+   */
+  @RequestMapping(value = "/emp_salary", params = {"date", "emp_id"}, method = RequestMethod.GET)
+  public ModelAndView emp_salary(@RequestParam Integer date,
+                                  @RequestParam Integer emp_id,
+                                  ModelAndView mav) {
+    mav.setViewName("salary_show");
+    mav.addObject("msg", "this is sample content.");
+    Optional<TrnPayslip> data = trnPayslipRepository.findByYearMonth(202001, 2);
+    mav.addObject("trnPayslip", data.get());
+
+    return mav;
+  }
+
+  /* POST */
+  @RequestMapping(value = "/emp_salary", method = RequestMethod.POST)
+  @Transactional(readOnly = false)
+  public ModelAndView form(@ModelAttribute("trnPayslip") TrnPayslip trnPayslip,
+                            ModelAndView mav) {
+    trnPayslipRepository.saveAndFlush(trnPayslip);
+
+    return new ModelAndView("redirect:/");
   }
 
   /* GET(FIND) */

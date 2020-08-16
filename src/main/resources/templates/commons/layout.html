@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="meta_header(title,links,scripts)">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title th:text="${title}+' | 給与計算アプリ'"></title>
+  <meta name="description" content="common-meta">
+  <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" />
+  <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+  <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <nav th:fragment="header" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a th:href="@{'/'}" class="navbar-brand">給与計算アプリ</a>
+
+    <div class="collapse navbar-collapse" id="Navber">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div th:fragment="contents(page,page_title)" class="container pt-5">
+    <h1 th:text="${page_title}"></h1>
+    <th:block th:replace="${page}" />
+  </div>
+
+  <footer th:fragment="footer">
+    <p class="footer-copyright">©2020 給与計算アプリ.xyz</p>
+  </footer>
+</body>
+</html>

@@ -1,17 +1,30 @@
 @charset "UTF-8";
 
-tr {
-	margin: 5px;
+
+/* 従業員一覧画面 */
+.emplist-table td {
+	text-align: center;
+	vertical-align: middle;
 }
 
-th {
-	padding: 5px;
-	color: white;
-	background: darkgray;
+
+/* 従業員給与明細画面 */
+.salary-calc-table th, .salary-calc-table td {
+	text-align: center;
+	vertical-align: middle;
 }
 
-td {
-	padding: 5px;
-	color: black;
-	background: #f0f0f0;
+.salary-calc-table th {
+	background-color: #e5e6e6;
+	border: 1px solid white;
+}
+
+.salary-calc-table th > label {
+	margin: 0;
+}
+
+/* フッター */
+.footer-copyright {
+   	text-align: right;
+    padding: 20px 50px;
 }

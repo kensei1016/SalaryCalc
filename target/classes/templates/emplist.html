@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="commons/layout :: meta_header('従業員一覧',~{::link},~{::script})"></head>
+<body>
+  <div th:replace="commons/layout :: header"></div>
+
+  <div th:replace="commons/layout :: contents(~{::div.content}, '従業員一覧')">
+    <div class="content">
+
+      <table class="table emplist-table">
+        <thead class="thead-light text-center">
+          <tr>
+            <th>ID</th>
+            <th>名前</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="emp : ${trnPayslipList}" th:object="${emp}">
+            <td th:text="*{emp_id}"></td>
+            <td th:text="*{name}"></td>
+            <td><a th:href="@{/emp_salary(date=${date}, emp_id=*{emp_id})}">明細表示</a></td>
+            <td><a th:href="@{'/delete/' + *{emp_id}}">削除</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div th:replace="commons/layout :: footer"></div>
+</body>
+</html>

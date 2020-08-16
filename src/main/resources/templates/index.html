@@ -1,35 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>従業員一覧</title>
-<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{commons/layout}">
+<head th:replace="commons/layout :: meta_header('top',~{::link},~{::script})"></head>
 <body>
+  <div th:replace="commons/layout :: header"></div>
 
-  <h1 th:text="#{content.title}"></h1>
+  <div th:replace="commons/layout :: contents(~{::div.content}, '給与月一覧')">
+    <div class="content">
 
-  <form method="post" action="/" th:object="${formModel}">
-    <label for="name">名前</label><br>
-    <input type="text" name="name" th:value="*{name}" /><br>
+      <form>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th style="width: 70px;"></th>
+              <th>給与月</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center"><input type="radio" value="A" id="radio1" name="radio" checked="checked"></td>
+              <td><a th:href="@{/emplist(date=${202001})}">202001</a></td>
+            </tr>
+            <tr>
+              <td class="text-center"><input type="radio" value="B" id="radio2" name="radio"></td>
+              <td><a th:href="@{'/'}">202002</a></td>
+            </tr>
+            <tr>
+              <td class="text-center"><input type="radio" value="C" id="radio3" name="radio"></td>
+              <td><a th:href="@{'/'}">202003</a></td>
+            </tr>
+          </tbody>
+        </table>
 
-    <input type="submit" name="追加" />
-  </form>
+        <input type="submit" name="datecopy" class="btn btn-success" value="新規作成">
+        <input type="submit" name="datecopy" class="btn btn-success" value="選択した年月から複製">
+      </form>
+    </div>
+  </div>
 
-
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>名前</th>
-      <th></th>
-      <th></th>
-    </tr>
-    <tr th:each="emp : ${emplist}" th:object="${emp}">
-      <td th:text="*{emp_id}"></td>
-      <td th:text="*{name}"></td>
-      <td><a th:href="@{'/employee/' + *{emp_id}}">詳細</a></td>
-      <td><a th:href="@{'/delete/' + *{emp_id}}">削除</a></td>
-    </tr>
-  </table>
+  <div th:replace="commons/layout :: footer"></div>
 </body>
 </html>

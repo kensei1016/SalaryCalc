@@ -8,13 +8,25 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MstEmployeeService {
+public class TrnPayslipService {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+
+	@Autowired
+  TrnPayslipRepository trnPayslipRepository;
+
+
+//	/* 検索 */
+//	public List<TrnPayslip> search(Integer year_month) {
+//    Optional<TrnPayslip> result = trnPayslipRepository.findByYearMonth(year_month);
+//
+//    return result;
+//  }
 
 	/* 全件取得 */
 	@SuppressWarnings("unchecked")
